@@ -2,29 +2,23 @@ import React, {useState} from 'react'
 
 const PuzzleCell = (props) => {
 
-    const {value, hints} = props;
+    const {value, hints} = props.puzzleCell;
 
     return (
         value===0 ?
-            <table className="table table-borderless p-0 m-0 hints-table">
-                <tbody>
-                    <tr>
-                        <td className="p-0 hint-cell">1</td>
-                        <td className="p-0 hint-cell">2</td>
-                        <td className="p-0 hint-cell">3</td>
-                    </tr>
-                    <tr>
-                        <td className="p-0 hint-cell">4</td>
-                        <td className="p-0 hint-cell">5</td>
-                        <td className="p-0 hint-cell">6</td>
-                    </tr>
-                    <tr>
-                        <td className="p-0 hint-cell">7</td>
-                        <td className="p-0 hint-cell">8</td>
-                        <td className="p-0 hint-cell">9</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div className="cell-value">
+                <div className="hints-grid">
+                    <span>{hints[0] ? 1 : " "}</span>
+                    <span>{hints[1] ? 2 : " "}</span>
+                    <span>{hints[2] ? 3 : " "}</span>
+                    <span>{hints[3] ? 4 : " "}</span>
+                    <span>{hints[4] ? 5 : " "}</span>
+                    <span>{hints[5] ? 6 : " "}</span>
+                    <span>{hints[6] ? 7 : " "}</span>
+                    <span>{hints[7] ? 8 : " "}</span>
+                    <span>{hints[8] ? 9 : " "}</span>
+                </div>
+            </div>
         : 
             <div className="cell-value">
                 <div className="cell-value-container">{value}</div>

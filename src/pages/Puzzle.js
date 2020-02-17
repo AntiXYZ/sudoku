@@ -1,46 +1,39 @@
 import React, { useState } from 'react'
 import PuzzleCell from '../components/layouts/PuzzleCell'
-
+import {testPuzzle} from '../Data'
 const Puzzle = () => {
 
-    const [puzzleTable, setPuzzleTable] = useState([
-        [1,3,3, 4,5,6, 7,8,9],
-        [4,0,0, 4,5,6, 7,8,9],
-        [3,0,0, 4,5,6, 7,8,9],
+    const [puzzleTable, setPuzzleTable] = useState(testPuzzle);
 
-        [4,2,3, 4,5,6, 7,8,9],
-        [5,2,3, 4,5,6, 7,8,9],
-        [6,2,3, 4,5,6, 7,8,9],
-
-        [7,2,3, 4,5,6, 7,8,9],
-        [8,2,3, 4,5,6, 7,8,9],
-        [9,2,3, 4,5,6, 7,8,9]
-    ])
+    const [activeRow, setActiveRow] = useState(0);
+    const [activeCol, setActiveCol] = useState(0);
 
     const buttons = [1,2,3,4,5,6,7,8,9];
 
     return (
-        <div style={{maxWidth:'400px'}} className="mx-auto">
+        <div style={{maxWidth:'400px'}} className="mx-auto  mt-2">
             <table className="table puzzle-table p-0">
                 <tbody>
                     {
-                        puzzleTable.map( (puzzleRow, rowIndex) => {
+                        puzzleTable.grid.map( (puzzleRow, rowIndex) => {
                             return (
-                                <tr key={"puzzleTableRow_"+ rowIndex} className="p-0 puzzle-row">
+                                <tr key={"puzzleTableRow_"+ rowIndex} 
+                                    className={"p-0 puzzle-row"+ (activeRow===rowIndex ? " active-row" : "")}
+                                >
                                     {
-                                        puzzleRow.map((puzzleCell, cellIndex) => {
+                                        puzzleRow.map((puzzleCell, colIndex) => {
                                             return(
-                                                <td key={"puzzleTableCell_" + rowIndex + "_" + cellIndex} 
-                                                    // id= {"puzzleTableCell_" + rowIndex + "_" + cellIndex} 
-                                                    className="p-0 puzzle-cell"
-                                                    // onClick={()=>{
-                                                    //     let cell = document.getElementById("puzzleTableCell_" + rowIndex + "_" + cellIndex);
-                                                    //     console.log("puzzleTableCell_" + rowIndex + "_" + cellIndex);
-                                                    //     console.log(cell);
-                                                    //     document.getElementById("puzzleTableCell_" + rowIndex + "_" + cellIndex).classList.add("active-cell");
-                                                    // }}
+                                                <td key={"puzzleTableCell_" + rowIndex + "_" + colIndex} 
+                                                    className={"p-0 puzzle-cell" 
+                                                        + (activeCol===colIndex?" active-col":"")
+                                                        + (activeCol===colIndex && activeRow===rowIndex?" active-cell":"")
+                                                    }
+                                                    onClick={()=>{
+                                                        setActiveRow(rowIndex);
+                                                        setActiveCol(colIndex);
+                                                    }}
                                                 >
-                                                    <PuzzleCell value={puzzleCell}/>
+                                                    <PuzzleCell puzzleCell={puzzleCell}/>
                                                 </td>
                                             )})
                                     }
@@ -57,7 +50,14 @@ const Puzzle = () => {
                         item => {
                             return(
                                 <div key={"btnValueContainer_"+item} className="puzzle-button-container">
-                                    <div key={"btnValue_"+item} className="puzzle-button">{item}</div>
+                                    <div key={"btnValue_"+item} 
+                                         className={"puzzle-button" + (puzzleTable.grid[activeRow][activeCol].value === item ? " chosen ": "")}
+                                         onClick={()=>{
+                                            let NewPuzzleTable={...puzzleTable};
+                                            NewPuzzleTable.grid[activeRow][activeCol].value = NewPuzzleTable.grid[activeRow][activeCol].value === item ? 0: item;
+                                            setPuzzleTable(NewPuzzleTable);
+                                         }}
+                                    >{item}</div>
                                 </div>
                             )
                         }
@@ -71,7 +71,16 @@ const Puzzle = () => {
                         item => {
                             return(
                                 <div key={"btnHintContainer_"+item} className="puzzle-button-container">
-                                    <div key={"btnHint_"+item} className={"puzzle-button hint-button-"+item}>{item}</div>
+                                    <div key={"btnHint_"+item} 
+                                         className={"puzzle-button hint-button-" + item
+                                                    + (puzzleTable.grid[activeRow][activeCol].hints[item-1] ? " chosen ": "")
+                                         }
+                                         onClick={()=>{
+                                            let NewPuzzleTable={...puzzleTable};
+                                            NewPuzzleTable.grid[activeRow][activeCol].hints[item-1] = !NewPuzzleTable.grid[activeRow][activeCol].hints[item-1];
+                                            setPuzzleTable(NewPuzzleTable);
+                                         }}
+                                    >{item}</div>
                                 </div>
                             )
                         }
