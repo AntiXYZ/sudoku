@@ -6,6 +6,7 @@ import Puzzle from './pages/Puzzle'
 import PageNotFound from './pages/PageNotFound'
 
 import Navbar from './components/layouts/Navbar'
+import PuzzleContextProvider from './components/contexts/PuzzleContext';
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
       <main>
         <div className="container">
         <Switch>
-          <Route exact path ='/'    component = {Home} />
-          <Route path='/puzzle/:id'  component = {Puzzle} />
+          <PuzzleContextProvider>
+            <Route exact path ='/'    component = {Home} />
+            <Route path='/puzzle'  component = {Puzzle} />
+          </PuzzleContextProvider>
           <Route component = {PageNotFound} /> 
         </Switch>
         </div>

@@ -1,18 +1,21 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import NotificationList from '../components/layouts/NotificationList'
 import { Link } from 'react-router-dom'
+import { PuzzleContext, EASY_LEVEL, NORMAL_LEVEL, HARD_LEVEL } from '../components/contexts/PuzzleContext'
 
 const Home = () => {
-    const newGameID = 1;
-    const lastGameID = 10;
+
+    const { puzzle, dispatch } = useContext(PuzzleContext);
 
     return (
         <div className="container mt-2">
             <div className="row">
                 <div className="col-12 col-sm-6">
                     <div className="container">
-                        <Link to={"puzzle/"+ newGameID} className="btn btn-secondary btn-block">New game</Link>
-                        <Link to={"puzzle/"+ lastGameID} className="btn btn-secondary btn-block">Load game</Link>
+                        <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: EASY_LEVEL})} className="btn btn-secondary btn-block">Easy</Link>
+                        <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: NORMAL_LEVEL})} className="btn btn-secondary btn-block">Normal</Link>
+                        <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: HARD_LEVEL})} className="btn btn-secondary btn-block">Hard</Link>
+                        {puzzle ?  <Link to={"puzzle"} className="btn btn-secondary btn-block">Load game</Link>: null}
                     </div>
                 </div>
 
