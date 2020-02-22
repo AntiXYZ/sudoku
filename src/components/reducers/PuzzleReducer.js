@@ -18,9 +18,19 @@ export const PuzzleReducer = (state, action) => {
             newState.grid[action.row][action.col].value = newState.grid[action.row][action.col].value === action.value ? 0: action.value;
             return newState;
         }
-        case 'SET_HINT':{
+        case 'SET_HINT': {
             let newState = {...state};
             newState.grid[action.row][action.col].hints[action.hint] = !newState.grid[action.row][action.col].hints[action.hint];
+            return newState;
+        }
+        case 'ADD_SECOND': {
+            let newState = {...state};
+            newState.spentTime++;
+            return newState;
+        }
+        case 'SET_SOLVED': {
+            let newState = {...state};
+            newState.isSolved = true;
             return newState;
         }
         default:

@@ -1,8 +1,8 @@
 import React, { createContext, useReducer, useEffect } from 'react'
 import { PuzzleReducer } from '../reducers/PuzzleReducer'
-import { CheckSudoku } from '../Sudoku'
+import { CheckSudoku } from '../Sudoku';
 
-export const EASY_LEVEL = 35;
+export const EASY_LEVEL = 75;
 export const NORMAL_LEVEL = 30;
 export const HARD_LEVEL = 25;
 
@@ -12,7 +12,7 @@ const PuzzleContextProvider = (props) => {
 
     const [puzzle, dispatch] = useReducer(PuzzleReducer, [], () => {
         const localData = localStorage.getItem('puzzle');
-        return localData ? JSON.parse(localData) : {filledQuantity:0, spentTime:0, grid:[]}
+        return localData ? JSON.parse(localData) : {filledQuantity:0, spentTime:0, isSolved:false, grid:[]}
     }); 
 
     useEffect(() => {
@@ -20,15 +20,9 @@ const PuzzleContextProvider = (props) => {
     }, [puzzle]);
 
     useEffect(() => {
-        if(puzzle.filledQuantity === 81){
-            if (CheckSudoku(puzzle.grid)){
-                console.log("Congratulations, you have solved sudoku!!!");
-            }
-            else{
-                console.log("Try one more time");
-            }
-        }
-    }, [puzzle.filledQuantity, puzzle.grid]);
+        if(!puzzle.isSolved && puzzle.filledQuantity === 81 && CheckSudoku(puzzle.grid))
+            dispatch({type:'SET_SOLVED'});
+    }, [puzzle]);
 
     return (
         <PuzzleContext.Provider value ={{puzzle, dispatch}}>

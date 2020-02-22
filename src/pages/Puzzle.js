@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import PuzzleCell from '../components/layouts/PuzzleCell'
 import { PuzzleContext } from '../components/contexts/PuzzleContext'
 
@@ -11,8 +12,36 @@ const Puzzle = (props) => {
 
     const buttons = [1,2,3,4,5,6,7,8,9];
 
+    useEffect(() => {
+        let interval = null;
+        if (!puzzle.isSolved) {
+            interval = setInterval(()=>dispatch({type: 'ADD_SECOND'}), 1000);
+        }
+        else if(interval !== null){
+            clearInterval(interval);
+        }
+
+        return () => {
+            clearInterval(interval);
+        };
+    })
+
     return (
-        <div style={{maxWidth:'400px'}} className="mx-auto  mt-2">
+        <div style={{maxWidth:'400px'}} className="mx-auto  mt-2 playing-field">
+            {puzzle.isSolved ? 
+                <Fragment>
+                    <div className="container solved-message-container"></div> 
+                    <div className="container solved-message-box">
+                        <div className="text mb-3">Congratulations, you have solved sudoku!!!</div>
+                        <Link to={"/"} className="btn btn-secondary">OK</Link>
+                    </div>    
+                </Fragment>
+            : null}
+
+
+            <div className="container stop-watch">
+                {Math.floor(puzzle.spentTime/3600).toString().padStart(2, '0') + ":" + Math.floor(puzzle.spentTime/60).toString().padStart(2, '0') + ":" + (puzzle.spentTime%60).toString().padStart(2, '0')}
+            </div>
             <table className="table puzzle-table p-0">
                 <tbody>
                     {

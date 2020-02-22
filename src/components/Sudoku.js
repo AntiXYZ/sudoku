@@ -75,7 +75,7 @@ function SwapColumnsAreas(grid){
 }
 
 function clearGrid(grid, level){
-    let cellsForHiding = _.sample(_.range(80),80-level-_.random(5));
+    let cellsForHiding = _.sample(_.range(80), (81 - level - _.random(5)));
     cellsForHiding.forEach((item)=>{
         grid[Math.floor(item/9)][item%9] = 0;
     })
@@ -84,8 +84,9 @@ function clearGrid(grid, level){
 
 function GeneratePuzzle(grid, filledQuantity){
     let Puzzle = {
-        filledQuantity: 0,
+        filledQuantity: filledQuantity,
         spentTime: 0,
+        isSolved: false,
         grid: []
     }
 

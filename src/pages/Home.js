@@ -15,7 +15,10 @@ const Home = () => {
                         <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: EASY_LEVEL})} className="btn btn-secondary btn-block">Easy</Link>
                         <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: NORMAL_LEVEL})} className="btn btn-secondary btn-block">Normal</Link>
                         <Link to={"puzzle"} onClick = {()=>dispatch({type: 'GENERATE_SUDOKU', level: HARD_LEVEL})} className="btn btn-secondary btn-block">Hard</Link>
-                        {puzzle ?  <Link to={"puzzle"} className="btn btn-secondary btn-block">Load game</Link>: null}
+                        {(!puzzle || puzzle.filledQuantity === 0 || puzzle.isSolved) 
+                            ?  null
+                            : <Link to={"puzzle"} className="btn btn-secondary btn-block">Load game</Link>
+                        }
                     </div>
                 </div>
 
