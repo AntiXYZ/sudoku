@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useEffect } from 'react'
 import { PuzzleReducer } from '../reducers/PuzzleReducer'
 import { CheckSudoku } from '../Sudoku';
 
-export const EASY_LEVEL = 75;
+export const EASY_LEVEL = 35;
 export const NORMAL_LEVEL = 30;
 export const HARD_LEVEL = 25;
 
