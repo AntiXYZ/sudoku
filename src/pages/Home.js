@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import NotificationList from '../components/layouts/NotificationList'
+// import NotificationList from '../components/layouts/NotificationList'
 import { Link } from 'react-router-dom'
 import { PuzzleContext, EASY_LEVEL, NORMAL_LEVEL, HARD_LEVEL } from '../components/contexts/PuzzleContext'
 
